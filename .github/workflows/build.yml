@@ -26,8 +26,24 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
+      - name: Cache node modules
+        id: cache-npm
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+
       - name: Install dependencies
+        if: steps.cache-npm.outputs.cache-hit != 'true'
         run: npm ci
+
+      - name: Setup Next.js build cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ github.workspace }}/.next/cache
+          key: ${{ runner.os }}-next-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+          restore-keys: |
+            ${{ runner.os }}-next-${{ hashFiles('**/package-lock.json') }}-
 
       - name: Build project
         run: npm run build
