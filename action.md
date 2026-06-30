@@ -70,7 +70,8 @@ jobs:
         uses: actions/cache@v4
         with:
           path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-node22-${{ hashFiles('**/package-lock.json') }}
+
 
 <!-- Add Cache for next.js build -->
 
