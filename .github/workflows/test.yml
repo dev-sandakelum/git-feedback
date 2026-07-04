@@ -7,5 +7,5 @@ jobs:
   Example:
     runs-on: ubuntu-latest
     steps:
-      name: print
+    - name: print
       run : echo "testing"
